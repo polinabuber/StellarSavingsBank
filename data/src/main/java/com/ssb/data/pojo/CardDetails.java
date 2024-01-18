@@ -1,4 +1,4 @@
-package com.ssb.data.pojo.cards;
+package com.ssb.data.pojo;
 
 import jakarta.persistence.*;
 
@@ -9,11 +9,16 @@ import java.util.*;
 @Table(name = "cards_details")
 public class CardDetails implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
     @Column(name = "info")
     private String info;
+
+    @ManyToOne
+    @JoinColumn(name = "id_card", nullable = false)
+    private Card card;
 
     public int getId() {
         return id;
@@ -31,6 +36,14 @@ public class CardDetails implements Serializable {
         this.info = info;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,13 +52,15 @@ public class CardDetails implements Serializable {
         CardDetails that = (CardDetails) o;
 
         if (id != that.id) return false;
-        return Objects.equals(info, that.info);
+        if (!Objects.equals(info, that.info)) return false;
+        return Objects.equals(card, that.card);
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (info != null ? info.hashCode() : 0);
+        result = 31 * result + (card != null ? card.hashCode() : 0);
         return result;
     }
 }

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS ssb_role (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            role VARCHAR(255) NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="buberpolina">
+        <sql>
+            INSERT INTO ssb_role (id, role) VALUES
+            (1, 'ROLE_ADMIN'),
+            (2, 'ROLE_USER');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS ssb_user (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            firstname VARCHAR(255),
+            lastname VARCHAR(255),
+            phone_number VARCHAR(255),
+            password VARCHAR(255),
+            id_ssb_role INT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="buberpolina">
+        <sql>
+            INSERT INTO ssb_user (id, firstname, lastname, phone_number, password, id_ssb_role) VALUES
+            (1, 'Admin', 'Admin', 'Admin', 'Admin', 1),
+            (2, 'User', 'User', 'User', 'User', 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="5" author="buberpolina">
+        <sql>
+            ALTER TABLE ssb_user
+            ADD FOREIGN KEY (id_ssb_role) REFERENCES ssb_role(id);
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS user_account (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            balance DECIMAL(10, 2),
+            id_ssb_user INT NOT NULL,
+            FOREIGN KEY (id_ssb_user) REFERENCES ssb_user(id)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="7" author="buberpolina">
+        <sql>
+            INSERT INTO user_account (id, balance, id_ssb_user) VALUES
+            (1, 1000.00, 1),
+            (2, 2000.00, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="8" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS card_types (
+            id INT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            card_details TEXT
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="9" author="buberpolina">
+        <sql>
+            INSERT INTO card_types (id, name, card_details) VALUES
+            (1, 'Gold', 'Gold debit card with high transaction limit'),
+            (2, 'Silver', 'Silver debit card with medium transaction limit');
+        </sql>
+    </changeSet>
+    <changeSet id="10" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS callback_requests (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(255),
+            phone_number VARCHAR(255),
+            is_processed BOOLEAN DEFAULT FALSE,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            processed_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="11" author="buberpolina">
+        <sql>
+            INSERT INTO callback_requests (id, name, phone_number, is_processed) VALUES
+            (1, 'John Doe', '1234567890', TRUE),
+            (2, 'Jane Doe', '0987654321', TRUE);
+        </sql>
+    </changeSet>
+
+    <changeSet id="12" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS ssb_news (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            text TEXT NOT NULL,
+            creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            news_image LONGBLOB
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="13" author="buberpolina">
+        <sql>
+            INSERT INTO ssb_news (id, title, text) VALUES
+            (1, 'Pave Your Way to Property Ownership with Stellar Savings Bank!', 'We offer a unique deposit scheme specifically designed for those aspiring to become property owners. Our goal is to make your dream of owning a home a reality sooner than you think!'),
+            (2, 'Boost Your Savings with Stellar Savings Bank!', 'We offer attractive terms for savings accounts that will help you grow your savings and secure a safe future.'),
+            (3, 'New Debit Cards from Stellar Savings Bank!', 'We are pleased to introduce our new debit cards with enhanced security features and higher limits. Get your card today!');
+        </sql>
+    </changeSet>
+
+    <changeSet id="14" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS exchange_rates (
+            id INT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            buy_rate DECIMAL(10, 4) NOT NULL,
+            sell_rate DECIMAL(10, 4) NOT NULL,
+            display_in_list BOOLEAN NOT NULL DEFAULT TRUE,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="15" author="buberpolina">
+        <sql>
+            INSERT INTO exchange_rates (id, name, buy_rate, sell_rate, display_in_list) VALUES
+            (1, 'USD', 3.1900, 3.2100, TRUE),
+            (2, 'EUR', 3.5000, 3.5400, TRUE),
+            (3, 'BYN', 1.0000, 1.0000, FALSE);
+        </sql>
+    </changeSet>
+    <changeSet id="16" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS deposits (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            percentage DECIMAL(5, 2),
+            deposit_details TEXT,
+            deposit_type VARCHAR(255)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="17" author="buberpolina">
+        <sql>
+            INSERT INTO deposits (id, name, percentage, deposit_details, deposit_type) VALUES
+            (1, 'Fixed Deposit', 2.5, 'Fixed deposit with a tenure of 1 year', 'Fixed'),
+            (2, 'Recurring Deposit', 2.0, 'Recurring deposit with a tenure of 1 year', 'Recurring');
+        </sql>
+    </changeSet>
+    <changeSet id="18" author="buberpolina">
+        <sql>
+            CREATE TABLE IF NOT EXISTS user_deposits (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            user_account_id INT,
+            deposit_id INT,
+            balance DECIMAL(10, 2),
+            FOREIGN KEY (user_account_id) REFERENCES user_account(id),
+            FOREIGN KEY (deposit_id) REFERENCES deposits(id)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="19" author="buberpolina">
+        <sql>
+            INSERT INTO user_deposits (user_account_id, deposit_id, balance) VALUES
+            (1, 1, 100),
+            (2, 2, 200);
+        </sql>
+    </changeSet>
+
+
+
+<!--    <changeSet id="10" author="buberpolina">-->
+<!--        <sql>-->
+<!--            CREATE TABLE IF NOT EXISTS user_cards (-->
+<!--            id INT PRIMARY KEY AUTO_INCREMENT,-->
+<!--            account_id INT NOT NULL,-->
+<!--            card_type_id INT,-->
+<!--            card_number VARCHAR(255) NOT NULL,-->
+<!--            card_balance DECIMAL(10, 2),-->
+<!--            FOREIGN KEY (account_id) REFERENCES user_account(id),-->
+<!--            FOREIGN KEY (card_type_id) REFERENCES card_types(id)-->
+<!--            );-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="11" author="buberpolina">-->
+<!--        <sql>-->
+<!--            INSERT INTO user_cards (id, account_id, card_type_id, card_number, card_balance) VALUES-->
+<!--            (1, 1, 1, '1234567812345678', 500.00),-->
+<!--            (2, 2, 2, '8765432187654321', 1500.00);-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+
+
+<!--    <changeSet id="14" author="buberpolina">-->
+<!--        <sql>-->
+<!--            CREATE TABLE IF NOT EXISTS user_deposits (-->
+<!--            id INT PRIMARY KEY AUTO_INCREMENT,-->
+<!--            user_id INT,-->
+<!--            deposit_type_id INT,-->
+<!--            FOREIGN KEY (user_id) REFERENCES ssb_user(id),-->
+<!--            FOREIGN KEY (deposit_type_id) REFERENCES deposits(id)-->
+<!--            );-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="15" author="buberpolina">-->
+<!--        <sql>-->
+<!--            INSERT INTO user_deposits (id, user_id, deposit_type_id) VALUES-->
+<!--            (1, 1, 1),-->
+<!--            (2, 2, 2);-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="16" author="buberpolina">-->
+<!--        <sql>-->
+<!--            CREATE TABLE IF NOT EXISTS transactions (-->
+<!--            id INT PRIMARY KEY AUTO_INCREMENT,-->
+<!--            sender_account_id INT NOT NULL,-->
+<!--            receiver_account_id INT NOT NULL,-->
+<!--            amount DECIMAL(10, 2) NOT NULL,-->
+<!--            transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-->
+<!--            FOREIGN KEY (sender_account_id) REFERENCES user_account(id),-->
+<!--            FOREIGN KEY (receiver_account_id) REFERENCES user_account(id)-->
+<!--            );-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="17" author="buberpolina">-->
+<!--        <sql>-->
+<!--            INSERT INTO transactions (id, sender_account_id, receiver_account_id, amount) VALUES-->
+<!--            (1, 1, 2, 100.00),-->
+<!--            (2, 2, 1, 200.00);-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+
+
+
+
+    <!--    TODO: ADD CARD NUMBER-->
+    <!--    <changeSet id="11" author="buberpolina">-->
+    <!--        <sql>-->
+    <!--            CREATE TABLE IF NOT EXISTS user_payments (-->
+    <!--            id INT PRIMARY KEY,-->
+    <!--            id_expenses INT,-->
+    <!--            id_refill INT,-->
+    <!--            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-->
+    <!--            FOREIGN KEY (id_expenses) REFERENCES user_expenses(id),-->
+    <!--            FOREIGN KEY (id_refill) REFERENCES user_refill(id)-->
+    <!--            );-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
+
+    <!--    <changeSet id="12" author="buberpolina">-->
+    <!--        <sql>-->
+    <!--            CREATE TABLE IF NOT EXISTS user_cards (-->
+    <!--            id INT PRIMARY KEY,-->
+    <!--            id_cards INT,-->
+    <!--            balance DECIMAL(10, 2),-->
+    <!--            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-->
+    <!--            FOREIGN KEY (id_cards) REFERENCES cards(id)-->
+    <!--            );-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
+
+    <!--    <changeSet id="13" author="buberpolina">-->
+    <!--        <sql>-->
+    <!--            CREATE TABLE IF NOT EXISTS user_expenses (-->
+    <!--            id INT PRIMARY KEY,-->
+    <!--            sum DECIMAL(10, 2),-->
+    <!--            id_receiver INT,-->
+    <!--            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-->
+    <!--            FOREIGN KEY (id_receiver) REFERENCES receivers(id)-->
+    <!--            );-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
+
+    <!--    <changeSet id="14" author="buberpolina">-->
+    <!--        <sql>-->
+    <!--            CREATE TABLE IF NOT EXISTS receivers (-->
+    <!--            id INT PRIMARY KEY,-->
+    <!--            name VARCHAR(255),-->
+    <!--            );-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
+
+    <!--    <changeSet id="15" author="buberpolina">-->
+    <!--        <sql>-->
+    <!--            CREATE TABLE IF NOT EXISTS user_refill (-->
+    <!--            id INT PRIMARY KEY,-->
+    <!--            sum DECIMAL(10, 2),-->
+    <!--            id_sender INT,-->
+    <!--            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-->
+    <!--            FOREIGN KEY (id_sender) REFERENCES senders(id)-->
+    <!--            );-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
+    <!--    TODO: ADD BALANCE-->
+    <!--    <changeSet id="16" author="buberpolina">-->
+    <!--        <sql>-->
+    <!--            CREATE TABLE IF NOT EXISTS senders (-->
+    <!--            id INT PRIMARY KEY,-->
+    <!--            name VARCHAR(255),-->
+    <!--            );-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
+</databaseChangeLog>
+
+

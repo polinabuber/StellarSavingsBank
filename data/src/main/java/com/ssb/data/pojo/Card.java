@@ -1,4 +1,4 @@
-package com.ssb.data.pojo.cards;
+package com.ssb.data.pojo;
 
 import jakarta.persistence.*;
 
@@ -9,15 +9,15 @@ import java.util.*;
 @Table(name = "cards")
 public class Card implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cards_details", nullable = false)
-    private CardDetails cardDetails;
+    @OneToMany(mappedBy = "card")
+    private List<CardDetails> cardDetails;
 
     public int getId() {
         return id;
@@ -35,11 +35,11 @@ public class Card implements Serializable {
         this.name = name;
     }
 
-    public CardDetails getCardDetails() {
+    public List<CardDetails> getCardDetails() {
         return cardDetails;
     }
 
-    public void setCardDetails(CardDetails cardDetails) {
+    public void setCardDetails(List<CardDetails> cardDetails) {
         this.cardDetails = cardDetails;
     }
 

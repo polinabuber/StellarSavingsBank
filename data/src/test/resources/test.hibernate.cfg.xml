@@ -1,0 +1,25 @@
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+
+    <session-factory>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ssb</property>
+        <property name="hibernate.connection.username">user</property>
+        <property name="hibernate.connection.password">user</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <mapping class="com.ssb.data.pojo.Card"/>
+        <mapping class="com.ssb.data.pojo.CardDetails"/>
+        <mapping class="com.ssb.data.pojo.News"/>
+        <mapping class="com.ssb.data.pojo.ExchangeRate"/>
+        <mapping class="com.ssb.data.pojo.CallbackRequest"/>
+        <mapping class="com.ssb.data.pojo.Role"/>
+        <mapping class="com.ssb.data.pojo.User"/>
+        <mapping class="com.ssb.data.pojo.UserAccount"/>
+        <mapping class="com.ssb.data.pojo.Deposits"/>
+        <mapping class="com.ssb.data.pojo.UserDeposits"/>
+
+
+    </session-factory>
+
+</hibernate-configuration>
