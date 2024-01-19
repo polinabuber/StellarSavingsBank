@@ -10,7 +10,7 @@
         </h6>
 
         <p class="news-text" style="font-size: 18px; margin-bottom: 20px;">${news.text}</p>
-        <img src="/news/details/${news.id}" alt="News Image" class="img-fluid" style="max-width: 100%; height: auto;">
+        <img src="/ssb/news/details/${news.id}" alt="News Image" class="img-fluid" style="max-width: 100%; height: auto;">
 
         <a href="/ssb/news/1" class="btn btn-primary mt-3" style="background-color: #4352B5; color: white;">Back to News</a>
     </div>

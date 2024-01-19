@@ -23,21 +23,24 @@
 
 
    <c:forEach var="news" items="${news}">
-       <div class="card mb-3" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
-           <div class="card-body">
-               <h5 class="card-title" style="font-weight: bold;">${news.title}</h5>
-                <h6 class="card-subtitle mb-2 text-muted" style="font-size: 14px;">
-                       <fmt:formatDate value="${news.creationDate}" pattern="dd.MM.yyyy"/>,  <fmt:formatDate value="${news.creationDate}" pattern="HH:mm"/>
-                   </h6>
-               <img src="/news/details/${news.id}" alt="News Image" class="img-fluid" style="max-width: 100%; height: auto;">
-               <a href="/ssb/news/details/${news.id}" class="btn btn-primary" style="background-color: #4352B5; color: white;">Read more</a>
-               <form action="/ssb/news/delete" method="post" enctype="multipart/form-data" class="mt-2">
-                   <input type="hidden" name="id" value="${news.id}">
-                   <button type="submit" class="btn btn-danger" style="background-color: #dc3545; border-color: #dc3545;">Delete</button>
-               </form>
-           </div>
-       </div>
+      <div class="card mb-3" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+          <div class="card-body">
+              <h5 class="card-title" style="font-weight: bold;">${news.title}</h5>
+               <h6 class="card-subtitle mb-2 text-muted" style="font-size: 14px;">
+                      <fmt:formatDate value="${news.creationDate}" pattern="dd.MM.yyyy"/>,  <fmt:formatDate value="${news.creationDate}" pattern="HH:mm"/>
+                  </h6>
+              <img src="/ssb/news/details/${news.id}" alt="News Image" class="img-fluid" style="max-width: 100%; height: auto;">
+              <div class="d-flex align-items-center">
+                  <a href="/ssb/news/details/${news.id}" class="btn btn-primary mr-2" style="background-color: #4352B5; color: white;">Read more</a>
+                  <form action="/ssb/news/delete" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="id" value="${news.id}">
+                      <button type="submit" class="btn btn-danger" style="background-color: #dc3545; border-color: #dc3545;">Delete</button>
+                  </form>
+              </div>
+          </div>
+      </div>
    </c:forEach>
+
 
 
 <nav aria-label="Page navigation example">
