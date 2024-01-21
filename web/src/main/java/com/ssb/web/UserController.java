@@ -41,7 +41,7 @@ public class UserController {
         try {
             UserDto user = authenticationService.register(userDto, request.getParameter("phone_number"));
             model.addAttribute("user", user);
-            return "redirect:/ssb";
+            return "redirect:/login";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "register";
