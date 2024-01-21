@@ -31,7 +31,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/static/**", "/WEB-INF/jsp/**","/news/**", "/convert-result","/requestForm").permitAll()
+                        .requestMatchers("/", "/static/**", "/WEB-INF/jsp/**","/news/**", "/exchange-rates/convert-result","/requestForm", "/exchange-rates/convert").permitAll()
                         .requestMatchers("/login", "/api/**", "/register").anonymous()
                         .requestMatchers("/logout", "/home", "/deposits", "/addDeposit").authenticated()
                         .requestMatchers("/add**", "/delete**", "/update**", "/exchange-rates", "/callback-result").hasRole("ADMIN")
