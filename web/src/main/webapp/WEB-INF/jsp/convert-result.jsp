@@ -3,38 +3,42 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@include file="header.jsp"%>
 <div class="container">
-    <h1 class="text-center my-4">Currency Converter</h1>
-    <form action="${pageContext.request.contextPath}/exchange-rates/convert" method="post" class="mx-auto" style="max-width: 300px;">
-        <div class="form-group">
-            <label for="fromCurrency">From Currency:</label>
-            <select id="fromCurrency" name="fromCurrency" class="form-control">
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="BYN">BYN</option>
-            </select>
+    <div class="card mx-auto" style="max-width: 300px; margin-top: 50px;">
+        <div class="card-header text-center">
+            <h2>Currency Converter</h2>
         </div>
-        <div class="form-group">
-            <label for="toCurrency">To Currency:</label>
-            <select id="toCurrency" name="toCurrency" class="form-control">
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="BYN">BYN</option>
-            </select>
+        <div class="card-body">
+            <form action="${pageContext.request.contextPath}/exchange-rates/convert" method="post">
+                <div class="form-group">
+                    <label for="fromCurrency">From Currency:</label>
+                    <select id="fromCurrency" name="fromCurrency" class="form-control">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="BYN">BYN</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="toCurrency">To Currency:</label>
+                    <select id="toCurrency" name="toCurrency" class="form-control">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="BYN">BYN</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" name="amount" class="form-control">
+                </div>
+                <div class="form-group text-center" style="margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary" style="background-color: #4352B5; border-color: #4352B5;">Convert</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" class="form-control">
-        </div>
-        <div class="form-group text-center" style="margin-top: 20px;">
-            <button type="submit" class="btn btn-primary">Convert</button>
-        </div>
-    </form>
-    <c:if test="${not empty result}">
-        <p class="text-center my-4">Conversion Result: ${result}</p>
-        <p class="text-center my-4">Exchange Rate: ${rate}</p>
-    </c:if>
+        <c:if test="${not empty result}">
+            <div class="card-footer text-center">
+                <p>Conversion Result: ${result}</p>
+                <p>Exchange Rate: ${rate}</p>
+            </div>
+        </c:if>
+    </div>
 </div>
-
-
-
-
