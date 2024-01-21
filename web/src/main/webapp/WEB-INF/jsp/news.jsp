@@ -6,9 +6,11 @@
 
 <div class="container mt-4">
     <h2 class="mb-4" style="font-weight: bold; color: black;">News</h2>
-   <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#addNewsForm" aria-expanded="false" aria-controls="addNewsForm" style="background-color: #4352B5; color: white;">
-        New news
-    </button>
+   <sec:authorize access="hasRole('ROLE_ADMIN')">
+       <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#addNewsForm" aria-expanded="false" aria-controls="addNewsForm" style="background-color: #4352B5; color: white;">
+           New news
+       </button>
+   </sec:authorize>
 
     <div class="collapse mb-4" id="addNewsForm">
         <div class="card card-body">
@@ -32,10 +34,12 @@
               <img src="/ssb/news/details/${news.id}" alt="News Image" class="img-fluid" style="max-width: 100%; height: auto;">
               <div class="d-flex align-items-center">
                   <a href="/ssb/news/details/${news.id}" class="btn btn-primary mr-2" style="background-color: #4352B5; color: white;">Read more</a>
-                  <form action="/ssb/news/delete" method="post" enctype="multipart/form-data">
-                      <input type="hidden" name="id" value="${news.id}">
-                      <button type="submit" class="btn btn-danger" style="background-color: #dc3545; border-color: #dc3545;">Delete</button>
-                  </form>
+                  <sec:authorize access="hasRole('ROLE_ADMIN')">
+                      <form action="/ssb/news/delete" method="post" enctype="multipart/form-data">
+                          <input type="hidden" name="id" value="${news.id}">
+                          <button type="submit" class="btn btn-danger" style="background-color: #dc3545; border-color: #dc3545;">Delete</button>
+                      </form>
+                  </sec:authorize>
               </div>
           </div>
       </div>
