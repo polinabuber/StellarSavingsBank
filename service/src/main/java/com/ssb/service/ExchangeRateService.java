@@ -17,5 +17,6 @@ public interface ExchangeRateService {
 
     boolean deleteExchangeRate(ExchangeRateDto exchangeRateDto);
     ExchangeRateDto getExchangeRateByName(String name);
-    BigDecimal convertCurrency(String fromCurrency, String toCurrency, BigDecimal amount);
+    Map<String, BigDecimal> convertCurrency(String fromCurrency, String toCurrency, BigDecimal amount);
+    BigDecimal getExchangeRate(String fromCurrency, String toCurrency);
 }

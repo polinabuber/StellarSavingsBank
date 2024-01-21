@@ -38,14 +38,14 @@ public class ExchangeRateController {
                                   @RequestParam("toCurrency") String toCurrency,
                                   @RequestParam("amount") BigDecimal amount,
                                   Model model) {
-        BigDecimal result = exchangeRateService.convertCurrency(fromCurrency, toCurrency, amount);
-//        BigDecimal rate = exchangeRateService.getExchangeRate(fromCurrency, toCurrency);
-        if (result != null) {
-            model.addAttribute("result", result);
-//            model.addAttribute("rate", rate);
+        Map<String, BigDecimal> conversion = exchangeRateService.convertCurrency(fromCurrency, toCurrency, amount);
+        if (conversion != null) {
+            model.addAttribute("result", conversion.get("result"));
+            model.addAttribute("rate", conversion.get("rate"));
         }
         return "convert-result";
     }
+
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/update")

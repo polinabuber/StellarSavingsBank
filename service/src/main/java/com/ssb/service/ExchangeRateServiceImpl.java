@@ -66,7 +66,39 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     @Override
-    public BigDecimal convertCurrency(String fromCurrency, String toCurrency, BigDecimal amount) {
+    public Map<String, BigDecimal> convertCurrency(String fromCurrency, String toCurrency, BigDecimal amount) {
+        ExchangeRateDto fromExchangeRate = getExchangeRateByName(fromCurrency);
+        ExchangeRateDto toExchangeRate = getExchangeRateByName(toCurrency);
+
+        Map<String, BigDecimal> conversion = new HashMap<>();
+
+        if (fromExchangeRate != null && toExchangeRate != null) {
+            BigDecimal rate;
+            BigDecimal conversionRate;
+            if ("BYN".equals(fromCurrency)) {
+                rate = toExchangeRate.getSellRate();
+                conversionRate = BigDecimal.ONE.divide(rate, 4, RoundingMode.HALF_UP);
+            } else if ("BYN".equals(toCurrency)) {
+                rate = fromExchangeRate.getBuyRate();
+                conversionRate = rate;
+            } else {
+                rate = fromExchangeRate.getBuyRate().divide(toExchangeRate.getSellRate(), 4, RoundingMode.HALF_UP);
+                conversionRate = rate;
+            }
+            conversion.put("result", amount.multiply(conversionRate));
+            conversion.put("rate", rate);
+        }
+
+        return conversion;
+    }
+
+
+
+
+
+
+
+    public BigDecimal getExchangeRate(String fromCurrency, String toCurrency) {
         ExchangeRateDto fromExchangeRate = getExchangeRateByName(fromCurrency);
         ExchangeRateDto toExchangeRate = getExchangeRateByName(toCurrency);
 
@@ -77,10 +109,11 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
             } else {
                 rate = fromExchangeRate.getBuyRate().divide(toExchangeRate.getSellRate(), 4, RoundingMode.HALF_UP);
             }
-            return amount.multiply(rate);
+            return rate;
         }
 
         return null;
     }
+
 
 }
